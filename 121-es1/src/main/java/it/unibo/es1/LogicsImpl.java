@@ -37,7 +37,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Integer> values() {
-        return values;
+        return new ArrayList<>(this.values);
     }
 
     /**
@@ -45,7 +45,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Boolean> enabledStates() {
-        return values.stream().map(v -> (v < N)).collect(Collectors.toList());
+        return values.stream().map(v -> v < N).collect(Collectors.toList());
     }
 
     /**
@@ -53,7 +53,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int hit(final int elem) {
-        values.set(elem, values.get(elem)+1);
+        values.set(elem, values.get(elem) + 1);
         return values.get(elem);
     }
 
@@ -62,7 +62,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public String result() {
-        return "<<" + values.stream().map(v -> v.toString()).collect(Collectors.joining("|")) + ">>";
+        return "<<" + values.stream().map(String::valueOf).collect(Collectors.joining("|")) + ">>";
     }
 
     /**
@@ -70,6 +70,6 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public boolean toQuit() {
-        return values.stream().allMatch(v -> (v >= N));
+        return values.stream().distinct().count() == 1;
     }
 }
